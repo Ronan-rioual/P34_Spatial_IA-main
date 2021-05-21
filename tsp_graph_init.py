@@ -26,7 +26,6 @@ class Graph:
         else :
             self.liste_lieux = self.creer_liste_lieux_aleatoire(nb_lieux)
         self.NB_LIEUX = len(self.liste_lieux)
-        print("#####", self.NB_LIEUX)
         self.matrice_od = self.calcul_matrice_cout_od()
         self.ordre_aleatoire = Route.def_ordre(self.NB_LIEUX)
         self.distance = Route.calcul_distance_route(self.ordre_aleatoire, self.matrice_od)
@@ -88,44 +87,3 @@ class Route:
         for i in range(len(ordre)-1):
             cls.distance += matrice_od[ordre[i],ordre[i+1]]
         return cls.distance
-
-
-def generer(name, l, h, np):
-
-    graphe = Graph(l, h, np)
-
-    print("liste des lieux à visiter :")
-    print([(lieu.x, lieu.y) for lieu in graphe.liste_lieux])
-    print("matrice des distances :")
-    print(graphe.matrice_od)
-
-    print("*"*65)
-
-    print("nombre de lieux :", graphe.NB_LIEUX, "__ ordre de visite aléatoire :", graphe.ordre_aleatoire)
-
-    print("distance totale :", graphe.distance)
-
-    graphe.sauvegarder_graph(f"{name}.csv")
-
-
-#generer("points", 10, 10, 5)
-
-
-
-
-
-# if __name__ == "__main__":
-#     import sys
-#     generer(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
-
-
-# """pour appeler la fonction "generer" via l'invite de commande : 
-#     $ python tsp_graph_init.py name l w np
-
-#     Args:
-#         name (str): nom du fichier csv qui sera généré
-#         l (int): largeur de l'espace 
-#         h (int): hauteur de l'espace
-#         np (int): nombre de points
-# """
-

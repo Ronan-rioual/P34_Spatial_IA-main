@@ -52,8 +52,6 @@ class TSP_SA:
         trajet1 = trajet.copy()
         cheapest = Route.calcul_distance_route(best, self.graphe.matrice_od)
         better = True
-        print("BEST", best, "- CHEAPEST", cheapest)
-        print("Running 2opt")
         while better :
             better = False
             for i in range(1, len(trajet1)-2) :
@@ -62,15 +60,10 @@ class TSP_SA:
                         continue
                     trajet2 = trajet1[:]
                     trajet2[i:j] = trajet1[j-1:i-1:-1]
-                    #print("NEW ORDER TRY", trajet2)
-                    #print("THIS COSTS", Route.calcul_distance_route(trajet2, self.graphe.matrice_od))
                     if Route.calcul_distance_route(trajet2, self.graphe.matrice_od) < cheapest:
                         best = trajet2
                         cheapest = Route.calcul_distance_route(best, self.graphe.matrice_od)
                         better = True
-                        print("ORDER ACCEPTED")
-                        print("NEW BEST ORDER :", trajet2)
-                        print("THIS COSTS", Route.calcul_distance_route(trajet2, self.graphe.matrice_od))
             trajet1 = best
             yield best, trajet2, cheapest
         return best

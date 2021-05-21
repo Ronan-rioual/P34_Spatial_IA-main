@@ -67,21 +67,22 @@ class Affichage(tk.Tk):
             except KeyError:
                 self.canvas.create_line((self.dico_lieux[x][0], self.dico_lieux[x][1]), ((self.dico_lieux[0][0]), (self.dico_lieux[0][1])), width = 3, dash=(3), fill = 'red',tags='best')
         self.canvas.update()
-        #self.canvas.delete('route')
+
 
 
 #appel de la fonction qui dessine les routes suivantes
         self.route_suivante = self.TSP.two_opt(self.premiere_route)
 
+        #affichage de la distance
+        self.affichage_distance = tk.Label(self.appli,text='distance : '+ str(self.best_distance),padx="10",pady="10")
+        self.affichage_distance.pack()
         while self.route_suivante:
             self.canvas.update()
             try:
                 best, test, cheapest = next(self.route_suivante)
             except StopIteration:
                 pass
-            #print(self.route_suivante)
-            #self.route_suivante = list(self.route_suivante)
-            #result = next(itertools.islice(x, 1))
+
 
             if self.best_distance > cheapest:
                 self.canvas.delete('best')
@@ -89,42 +90,18 @@ class Affichage(tk.Tk):
                     try:
                         self.canvas.create_line((self.dico_lieux[best[x]][0], self.dico_lieux[best[x]][1]), ((self.dico_lieux[best[x+1]][0]), (self.dico_lieux[best[x+1]][1])), width = 3, dash=(4,1), fill = 'blue', tags = 'best')
                     except KeyError:
-                        self.canvas.create_line((self.dico_lieux[x][0], self.dico_lieux[x][1]), ((self.dico_lieux[0][0]), (self.dico_lieux[0][1])), width = 3, dash=(3), fill = 'blue',tags='best')          
+                        self.canvas.create_line((self.dico_lieux[x][0], self.dico_lieux[x][1]), ((self.dico_lieux[0][0]), (self.dico_lieux[0][1])), width = 3, dash=(3), fill = 'blue',tags='best') 
+                self.affichage_distance = tk.Label(self.appli,text='distance : '+ str(self.best_distance),padx="10",pady="10")
             else:
+                self.canvas.delete('route')                
                 for x in range(len(test)-1):
-                    print('coucou')
                     try:
                         self.canvas.create_line((self.dico_lieux[test[x]][0], self.dico_lieux[test[x]][1]), ((self.dico_lieux[test[x+1]][0]), (self.dico_lieux[test[x+1]][1])), width = 3, dash=(4,1), fill = 'grey',tags='route')
                     except KeyError:
                         self.canvas.create_line((self.dico_lieux[x][0], self.dico_lieux[x][1]), ((self.dico_lieux[0][0]), (self.dico_lieux[0][1])), width = 3, dash=(3), fill = 'grey',tags='route')   
 
 
-            self.canvas.update()
-            self.canvas.delete('route')
  
-# appel de la fonction qui trouve la route optimale
-        # self.meilleur_route = self.TSP.chemin_2opt
-
-        # #traçage de la meilleur route
-        # for x in self.meilleur_route:
-        #     try:
-        #         self.canvas.create_line((self.dico_lieux[self.meilleur_route[x]][0], self.dico_lieux[self.meilleur_route[x]][1]), ((self.dico_lieux[self.meilleur_route[x+1]][0]), (self.dico_lieux[self.meilleur_route[x+1]][1])), width = 3, dash=(4,1), fill = 'red',tags='route2')
-        #     except KeyError:
-        #         self.canvas.create_line((self.dico_lieux[x][0], self.dico_lieux[x][1]), ((self.dico_lieux[0][0]), (self.dico_lieux[0][1])), width = 3, dash=(3), fill = 'red',tags='route2') 
-        # self.canvas.tag_raise('points') #je remet les points et le texte au premier plan
-        # self.canvas.tag_raise('text')  
-
-        # canvas.update()
    
         # affichage du texte en bas de la fenêtre TK
-        self.affichage_distance = tk.Label(self.appli,text='distance : '+ str(self.TSP.distance_zero),padx="10",pady="10")
-        self.affichage_distance.pack()
 
-
-# def geomatique():
-
-#   app=Affichage()
-#   app.mainloop()
-
-
-# geomatique()
